@@ -9,6 +9,7 @@ const ormConfig: ConnectionOptions = {
   database: process.env.DB_DATABASE,
   entities: ['dist/entities/*entity.js'],
   migrations: ['dist/migrations/*.js'],
+  synchronize: true,
   cli: {
     entitiesDir: 'src/entities',
     migrationsDir: 'src/migrations',

@@ -6,15 +6,15 @@ import { RoleRepository } from './role.repository';
 export class RolesService {
   constructor(private readonly roleRepository: RoleRepository) {}
 
-  // async index(): Promise<Role[]> {
-  //   return await this.roleRepository.find();
-  // }
-  index() {
-    return 'service show';
+  async index(): Promise<Role[]> {
+    return await this.roleRepository.find();
   }
 
+  // async show(id: number): Promise<Role> {
+  //   return await this.roleRepository.findOne(id);
+  // }
   show() {
-    return 'service show';
+    return 'hoge';
   }
 
   create() {

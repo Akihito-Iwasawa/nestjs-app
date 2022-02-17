@@ -5,7 +5,9 @@ import { RoleRepository } from './role.repository';
 import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
-const mockRepository = () => ({});
+const mockRepository = () => ({
+  find: jest.fn(),
+});
 
 describe('RolesController', () => {
   let controller: RolesController;
@@ -28,11 +30,11 @@ describe('RolesController', () => {
     await app.init();
   });
 
-  // it('index:正常系 GET /roles が200レスポンスである', async () => {
-  //   const response = await request(app.getHttpServer()).get('/roles');
-  //   expect(controller).toBeDefined();
-  //   expect(response.status).toBe(200);
-  // });
+  it('index:正常系 GET /roles が200レスポンスである', async () => {
+    const response = await request(app.getHttpServer()).get('/roles');
+    expect(controller).toBeDefined();
+    expect(response.status).toBe(200);
+  });
 
   it('show:正常系 GET /roles/:id が200レスポンスである', async () => {
     const response = await request(app.getHttpServer()).get('/roles/1');

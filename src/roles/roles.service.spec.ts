@@ -3,7 +3,7 @@ import { RolesService } from './roles.service';
 import { RoleRepository } from './role.repository';
 
 const mockRepository = () => ({
-  find: jest.fn(),
+  find: jest.fn().mockResolvedValue([]),
 });
 
 describe('RolesServiceTest', () => {
@@ -28,7 +28,6 @@ describe('RolesServiceTest', () => {
   describe('index', () => {
     it('正常系', async () => {
       const expected = [];
-      repository.find.mockResolvedValue(expected);
       const result = await service.index();
       expect(result).toEqual(expected);
     });

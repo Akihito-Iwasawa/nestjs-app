@@ -6,13 +6,17 @@ import { Role } from '../entities/role.entity';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  // @Get()
-  // async index(): Promise<Role[]> {
-  //   return await this.rolesService.index();
-  // }
+  @Get()
+  async index(): Promise<Role[]> {
+    return await this.rolesService.index();
+  }
 
+  // @Get(':id')
+  // show(@Param('id') id: number): Promise<Role> {
+  //   return this.rolesService.show(id);
+  // }
   @Get(':id')
-  show(/*@Param('id') id: string*/) {
+  show() {
     return this.rolesService.show();
   }
 
