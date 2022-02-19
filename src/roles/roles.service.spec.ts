@@ -1,9 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RolesService } from './roles.service';
 import { RoleRepository } from './role.repository';
+import { CreateRoleDto } from './dto/create-role.dto';
+
+const now = new Date();
+const mockRepositoryParams: any = {
+  id: 1,
+  name: 'admin',
+  createdAt: now,
+  updatedAt: now,
+};
 
 const mockRepository = () => ({
   find: jest.fn().mockResolvedValue([]),
+  create: jest.fn(),
+  save: jest.fn().mockResolvedValue(mockRepositoryParams),
+  findOne: jest.fn().mockResolvedValue(mockRepositoryParams),
+  delete: jest.fn(),
 });
 
 describe('RolesServiceTest', () => {
@@ -35,25 +48,53 @@ describe('RolesServiceTest', () => {
 
   describe('show', () => {
     it('正常系', async () => {
-      // test suite
+      const expected = {
+        id: 1,
+        name: 'admin',
+        createdAt: now,
+        updatedAt: now,
+      };
+      const result = await service.show(1);
+      expect(result).toEqual(expected);
     });
   });
 
   describe('create', () => {
     it('正常系', async () => {
-      // test suite
+      const expected = {
+        id: 1,
+        name: 'admin',
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      const result = await service.create(mockRepositoryParams);
+      expect(result).toEqual(expected);
     });
   });
 
   describe('update', () => {
     it('正常系', async () => {
-      // test suite
+      const updatedAt = new Date();
+      const expected = {
+        id: 1,
+        name: 'member',
+        createdAt: now,
+        updatedAt: updatedAt,
+      };
+
+      const result = await service.show(1);
+      result.name = 'member';
+      result.updatedAt = updatedAt;
+
+      expect(result).toEqual(expected);
     });
   });
 
   describe('delete', () => {
     it('正常系', async () => {
-      // test suite
+      await service.delete(1);
+      expect(repository.delete).toHaveBeenCalled();
     });
   });
 });

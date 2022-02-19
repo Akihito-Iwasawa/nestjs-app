@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Role } from '../entities/role.entity';
 import { RoleRepository } from './role.repository';
+import { CreateRoleDto } from './dto/create-role.dto';
 
 @Injectable()
 export class RolesService {
@@ -10,22 +11,35 @@ export class RolesService {
     return await this.roleRepository.find();
   }
 
-  // async show(id: number): Promise<Role> {
-  //   return await this.roleRepository.findOne(id);
-  // }
-  show() {
-    return 'hoge';
+  async show(id: number): Promise<Role> {
+    return await this.roleRepository.findOne(id);
   }
 
-  create() {
-    return 'service create';
+  async create(role: CreateRoleDto): Promise<Role> {
+    const { name, createdAt, updatedAt } = role;
+    const row = this.roleRepository.create({
+      name,
+      createdAt,
+      updatedAt,
+    });
+    return await this.roleRepository.save(row);
   }
 
-  update() {
-    return 'service update';
+  async update(id: number, updateName: string): Promise<Role> {
+    const found = await this.roleRepository.findOne(id);
+    if (!found) {
+      return new Role();
+    }
+    const now = new Date();
+    found.name = updateName;
+    found.updatedAt = now;
+    return await this.roleRepository.save(found);
   }
 
-  delete() {
-    return 'service delete';
+  async delete(id: number): Promise<void> {
+    const found = await this.roleRepository.findOne(id);
+    if (found) {
+      await this.roleRepository.delete(found);
+    }
   }
 }

@@ -7,6 +7,9 @@ import { INestApplication } from '@nestjs/common';
 
 const mockRepository = () => ({
   find: jest.fn(),
+  create: jest.fn(),
+  save: jest.fn(),
+  findOne: jest.fn(),
 });
 
 describe('RolesController', () => {
@@ -43,13 +46,21 @@ describe('RolesController', () => {
   });
 
   it('create:正常系 POST /roles が201レスポンスである', async () => {
-    const response = await request(app.getHttpServer()).post('/roles');
+    const now = new Date();
+    const response = await request(app.getHttpServer()).post('/roles').send({
+      id: 1,
+      name: 'admin',
+      createdAt: now,
+      updatedAt: now,
+    });
     expect(controller).toBeDefined();
     expect(response.status).toBe(201);
   });
 
   it('update:正常系 PATCH /roles/:id が200レスポンスである', async () => {
-    const response = await request(app.getHttpServer()).patch('/roles/1');
+    const response = await request(app.getHttpServer()).patch('/roles/1').send({
+      name: 'member',
+    });
     expect(controller).toBeDefined();
     expect(response.status).toBe(200);
   });
